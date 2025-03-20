@@ -73,7 +73,6 @@ use App\Http\Controllers\CorreoElectronicoController;
     // Ruta para almacenar un nuevo comentario
     Route::post('/comentar', [ComentariosController::class, 'store'])->name('comentar.store');
 
-
     //**************************************************************/
     //**************************************************************/
     //                       Rutas para los PDFs
