@@ -1,45 +1,45 @@
-<!-- Esta el la vista para ver los comentarios de la imagen -->
+<!-- Esta es la vista para ver los comentarios de la imagen -->
 @extends('master')
 
 @section('contenido')
-<!-- contenedor ptincipal de todo  -->
+<!-- Contenedor principal de todo -->
 <div class="container mt-5 d-flex justify-content-center">
     
-    <!-- Contenedor para la fotografia y los comentarios -->
-    <div class="col-md-8 d-flex">
-
+    <!-- Contenedor para la fotografía y los comentarios -->
+    <!-- flex-lg-row: Muestra la imagen y los comentarios en fila en pantallas grandes -->
+    <!-- flex-column: Asegura que en pantallas pequeñas los comentarios vayan debajo -->
+    <div class="col-md-8 d-flex flex-column flex-lg-row align-items-start">
+        
         <!-- Card de la fotografía -->
-        <div class="card mb-4 w-75">
-
-            <!-- La cabecera de la imagen -->
+        <div class="card mb-4 w-100">
+            
+            <!-- Cabecera de la imagen -->
             <div class="card-header">
-                <!-- Mas adelante añadire la foto de perfil del usuario junto a su publicacion -->
-                <!-- <img src="{{ asset('images/user.png') }}" class="rounded-circle me-2" width="40" height="40"> -->
-                <span>Publicaion de: <strong>{{ $fotografia->user->name }}</strong></span>
+                <span>Publicación de: <strong>{{ $fotografia->user->name }}</strong></span>
             </div>
 
-            <!-- La imagen publicada -->
+            <!-- Imagen publicada -->
             <div>
-                <img id="laimagen" src="{{ asset('images/' . $fotografia->direccion_imagen) }}" class="img-fluid w-100">
+                <img id="laimagen" src="{{ asset('images/' . $fotografia->direccion_imagen) }}" class="img-fluid w-100" alt="La imagen del usuario">
             </div>
 
-            <!-- Contenedor para la informacion de la imagen -->
+            <!-- Contenedor para la información de la imagen -->
             <div class="card-body p-3 d-flex justify-content-between">
 
-                <!-- Contenedor de los likes (Izquierda) -->
+                <!-- Contenedor de los likes (izquierda) -->
                 <div>
                     <!-- Comprobamos si el usuario ha dado o no like -->
-                    <button class="btn p-0" onclick="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'quitarLike(this)' : 'darLike(this)' }}" fotoId="{{ $fotografia->id }}">
+                    <button type="button" role="button" aria-label="Me gusta esta foto" class="btn p-0" onclick="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'quitarLike(this)' : 'darLike(this)' }}" fotoId="{{ $fotografia->id }}">
                         <i class="fa-solid fa-heart fs-4" id="corazon-{{ $fotografia->id }}" style="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'color: red;' : '' }}"></i>
                     </button>
                     <!-- Contador de likes -->
                     <span id="contadorLikes-{{ $fotografia->id }}">{{ $fotografia->likesCount() }}</span>
                 </div>
 
-                <!-- Botón de comentarios (Derecha) -->
+                <!-- Botón de comentarios (derecha) -->
                 <div>
                     <!-- Comprobamos si el usuario ha hecho un comentario o no -->
-                    <button type="submit" class="btn p-0" style="cursor: default;">
+                    <button type="submit" class="btn p-0" style="cursor: default;" role="button" aria-label="Comentar en esta foto">
                         <i class="fa-solid fa-comment fs-4" style="{{ \App\Models\Comentarios::comprobarComentario($fotografia->id) ? 'color: #FFD700;' : '' }}"></i>
                     </button>
                     <!-- Contador de comentarios -->
@@ -54,10 +54,13 @@
         </div>
 
         <!-- Card de los comentarios -->
-        <div class="ms-4 w-75 d-flex flex-column">
+        <!-- ms-lg-4: Da un margen a la izquierda solo en pantallas grandes para separar imagen y comentarios -->
+        <div class="ms-lg-4 w-100">
             <div class="card mb-4 p-3 h-100">
+                
+                <!-- Contenedor donde se cargan los comentarios -->
                 <div id="comentarios" class="mb-3" style="max-height: 390px; overflow-y: auto;">
-                    <!-- Aquí se cargan los comentarios -->
+                    <!-- Aquí se cargan los comentarios dinámicamente -->
                 </div>
 
                 <!-- Formulario para crear un nuevo comentario -->
@@ -70,13 +73,11 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-3">
-
                         <!-- Botón de Enviar Comentario -->
                         <button type="submit" class="btn btn-primary">
                             <i class="fa-solid fa-paper-plane"></i> Enviar Comentario
                         </button>
 
-                        
                         <!-- Botón de Volver -->
                         <a href="{{ url('/fotografias') }}">
                             <button type="button" class="btn btn-secondary">
@@ -125,7 +126,7 @@
                         <!-- Comprobamos si el usuario logeado es el dueño del comentario para poner el boton para eliminarlo -->
                         ${comentario.user.id == userId ? 
                         `
-                        <button class="btn" onclick="eliminarComentario(${comentario.id})">
+                        <button class="btn" onclick="eliminarComentario(${comentario.id})" role="button" aria-label="Eliminar este comentario">
                         <i class="fa-solid fa-trash"></i>
                         </button>
                         ` : ''}
