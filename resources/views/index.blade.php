@@ -35,7 +35,7 @@
                     <!-- Aqui metemos la imagen deseada -->
                     <div class="d-flex justify-content-center" style="background-color:#e9ecef;">
                         <a href="{{ route('comentar.index', ['fotografia_id' => $fotografia->id]) }}" class="w-100">
-                            <img src="{{ asset('images/' . $fotografia->direccion_imagen) }}" class="card-img-top img-fluid tamano-img">
+                            <img src="{{ asset('images/' . $fotografia->direccion_imagen) }}" class="card-img-top img-fluid tamano-img" alt="Imagen del usuario">
                         </a>
                     </div>
 
@@ -45,7 +45,7 @@
                             <!-- Este es el contenedor de los likes -->
                             <div>
                                 <!-- Comprobamos si el usuario ha dado o no like y hacemos cosas en funcion -->
-                                <button class="btn p-0" onclick="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'quitarLike(this)' : 'darLike(this)' }}" fotoId="{{ $fotografia->id }}">
+                                <button type="button" role="button" aria-label="Me gusta esta foto" class="btn p-0" onclick="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'quitarLike(this)' : 'darLike(this)' }}" fotoId="{{ $fotografia->id }}">
                                     <i class="fa-solid fa-heart fs-4" id="corazon-{{ $fotografia->id }}" style="{{ $fotografia->likes()->where('usuario_id', Auth::id())->exists() ? 'color: red;' : '' }}"></i>
                                 </button>
                                 <!-- Aqui aparece el contador de los likes -->
@@ -55,7 +55,7 @@
                             <!-- Este es el boton de comentario -->
                             <form action="{{ route('comentarios.index') }}" method="GET" class="m-0">
                                 <input type="hidden" name="fotografia_id" value="{{ $fotografia->id }}">
-                                <button type="submit" class="btn p-0">
+                                <button type="submit" class="btn p-0" role="button" aria-label="Comentar en esta foto" >
                                     <!-- Combrobamos si el usuario logeado ya ha comentado en la foto -->
                                     <i class="fa-solid fa-comment fs-4" style="{{ \App\Models\Comentarios::comprobarComentario($fotografia->id) ? 'color: #FFD700;' : '' }}"></i>
                                 </button>
