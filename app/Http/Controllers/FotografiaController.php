@@ -23,7 +23,7 @@ class FotografiaController extends Controller
         // La funcion check() se usa para comprobar si el usuario esta logueado
         if (Auth::check()) {
             // Obtenemos las fotografias con sus relaciones correspondientes
-            $fotografias = Fotografia::with('user', 'likes', 'comentarios')->paginate(5); // Las paginamos de 5 en 5
+            $fotografias = Fotografia::with('user', 'likes', 'comentarios')->orderBy('id', 'desc')->paginate(5); // Las paginamos de 5 en 5
 
             // Devolvemos la vista deseada y con el compact() le pasamos a esta misma vista $fotografias
             // El request se encarga de calcular el indice para las fotografias
